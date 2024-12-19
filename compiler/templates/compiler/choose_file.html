@@ -1,0 +1,9 @@
+<h1>Choose file:</h1>
+<ul>
+    {% for file in files %}
+        <li><a id="file{{ file.id }}" onclick="chooseFile(event)" href="/compiler/file/">{{ file.name }}</a></li>
+    {% endfor %}
+    {% for folder in folders %}
+        {% include "compiler/folders_view_template.html" %}
+    {% endfor %}
+</ul>

@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{% csrf_token %}">
+    <link rel="stylesheet" href="{% static 'compiler/styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{% static 'compiler/index.js' %}"></script>
+    <script src="{% static 'compiler/file.js' %}"></script>
+    <script src="{% static 'compiler/compile.js' %}"></script>
+    <title>Kompilator</title>
+</head>
+<body>
+<div class="grid-container">
+    <header class="menu">
+        <div class="dropdown">
+            <button>File</button>
+            <div id="file-action" class="menu-content">
+                <a onclick="displayForm(event)" href="/compiler/upload">Upload file</a>
+                <a onclick="displayForm(event)" href="/compiler/add_directory">Add directory</a>
+                <a onclick="displayForm(event)" href="/compiler/delete_file">Delete file</a>
+                <a onclick="displayForm(event)" href="/compiler/delete_folder">Delete folder</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button>Edit</button>
+            <div class="menu-content">
+                <a href="#">Select all</a>
+                <a href="#">Find</a>
+                <a href="#">Undo</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button>Compilation</button>
+            <div class="menu-content">
+                <a href="/compiler/compile/" onclick="submitTabs(event)">Compile</a>
+                <a href="/compiler/file/download/" onclick="downloadAsm(event)">Download result</a>
+            </div>
+        </div>
+        <a class='logout' href="{% url 'accounts:logout' %}">Log out</a>
+        <button onclick="darkMode(event)" class="color-mode dark" id="dark">Dark Mode</button>
+        <button onclick="lightMode(event)" class="color-mode light" id="light">Light Mode</button>
+    </header>
+    <div class="choose-file">
+        <div id="file-form-div" class="text"></div>
+        <div id="choose-file-text" class="text">
+            {% with files=files folders=folders %}
+                {% include "compiler/choose_file.html" %}
+            {% endwith %}
+        </div>
+    </div>
+    <div id="file-text" class="file-text">
+        {% with text=text %}
+            {% include "compiler/file_text.html" %}
+        {% endwith %}
+    </div>
+    <div class="code-block">
+        {% with asm=asm %}
+            {% include "compiler/compile.html" %}
+        {% endwith %}
+    </div>
+    <div class="tabs">
+        <div class="tabs-bar">
+            <button class="tablinks active" onclick="clickHandle(event, 'tab1')">STANDARD</button>
+            <button class="tablinks" onclick="clickHandle(event, 'tab2')">OPTIMIZATIONS</button>
+            <button class="tablinks" onclick="clickHandle(event, 'tab3')">PROCESSOR</button>
+            <button class="tablinks" onclick="clickHandle(event, 'tab4')">DEPENDANT</button>
+        </div>
+
+        <form id="tab_forms" method="POST">
+            <div id="tab1" class="first-tab tab-content text">
+                {% csrf_token %}
+                {{ standard_tab.as_p }}
+            </div>
+            <div id="tab2" class="tab-content text">
+                {% csrf_token %}
+                {{ optimizations_tab.as_p }}
+            </div>
+            <div id="tab3" class="tab-content text">
+                {% csrf_token %}
+                {{ processor_tab.as_p }}
+            </div>
+            <div id="tab4" class="tab-content text">
+                <div id="dependant_msg">
+                    {{ dependant_tab_msg }}
+                </div>
+                <div id="tab4_forms">
+                    {% for dependant_key, dependant_form in dependant_tab_forms.items %}
+                        <div id="dependant_tab_{{ dependant_key }}" method="POST" hx-trigger="change">
+                            {% csrf_token %}
+                            {{ dependant_form.as_p }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

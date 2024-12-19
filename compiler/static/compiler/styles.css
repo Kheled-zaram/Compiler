@@ -1,0 +1,347 @@
+:root {
+    --bg: whitesmoke;
+    --menu-bg: #2D3033;
+    --menu-btn: #04AA6D;
+    --menu-btn-text: white;
+    --side-bg: lightgrey;
+    --tabs-bar-bg: lightgrey;
+    --tab-bg: whitesmoke;
+    --tab-btn: #C0C0C0;
+    --border: grey;
+    --text: black;
+    --asm-header: #98F698;
+    --asm-content: #C1FFC1;
+}
+
+:root.dark-theme {
+    --bg: #080808;
+    --menu-bg: #2D3033;
+    --side-bg: #404040;
+    --tabs-bar-bg: #404040;
+    --tab-bg: #202020;
+    --tab-btn: #606060;
+    --border: #404040;
+    --text: white;
+    --asm-header: #012015;
+    --asm-content: #013220;
+}
+
+.grid-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 20% 50% 30%;
+    grid-template-rows: 5% 70% 25%;
+}
+
+.menu {
+    grid-area: 1 / 1 / 2 / 4;
+    border-style: none none groove none;
+    background: var(--menu-bg);
+}
+
+.file-text {
+    grid-area: 2 / 2 / 3 / 3;
+    border-style: groove groove groove groove;
+    background: var(--bg);
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    z-index: 0;
+}
+
+.choose-file {
+    grid-area: 2 / 1 / 4 / 2;
+    border-style: groove groove none none;
+    background: var(--side-bg);
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    z-index: 0;
+}
+
+/*.choose-file form {*/
+/*    display: none;*/
+/*}*/
+
+.code-block {
+    grid-area: 2 / 3 / 3 / 4;
+    border-style: groove none groove groove;
+    background: var(--bg);
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    z-index: 0;
+}
+
+.tabs {
+    grid-area: 3 / 2 / 4 / 4;
+    border-style: groove none none groove;
+    background: var(--tab-bg);
+}
+
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 35% 20% 20% 20%;
+    }
+
+    .menu {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+
+    .file-text {
+        grid-area: 2 / 1 / 3 / 2;
+        border-style: groove none groove none;
+    }
+
+    .choose-file {
+        grid-area: 3 / 1 / 4 / 2;
+        border-style: groove none groove none;
+    }
+
+    .code-block {
+        grid-area: 4 / 1 / 5 / 2;
+        border-style: groove none groove none;
+    }
+
+    .tabs {
+        grid-area: 5 / 1 / 6 / 2;
+        border-style: groove none none none;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+    .grid-container {
+        grid-template-columns: 30% 70%;
+        grid-template-rows: 5% 35% 30% 30%;
+    }
+
+    .menu {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+
+    .file-text {
+        grid-area: 2 / 2 / 3 / 3;
+        border-style: groove none groove groove;
+    }
+
+    .choose-file {
+        grid-area: 2 / 1 / 5 / 2;
+        border-style: groove groove none none;
+    }
+
+    .code-block {
+        grid-area: 3 / 2 / 4 / 3;
+        border-style: groove none groove groove;
+    }
+
+    .tabs {
+        grid-area: 4 / 2 / 5 / 3;
+        border-style: groove none none groove;
+    }
+}
+
+/* TABS */
+
+.tabs-bar {
+    background: var(--tabs-bar-bg);
+    position: relative;
+    top: 1px;
+}
+
+.tabs button {
+    background-color: var(--tab-btn);
+    top: 1px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tabs button:hover {
+    background-color: #DCDCDC;
+}
+
+.tabs button.active {
+    background-color: var(--tab-bg);
+}
+
+.tab-content {
+    display: none;
+    scroll-behavior: smooth;
+    overflow-y: auto;
+}
+
+.first-tab {
+    display: block;
+}
+
+.checkbox {
+    padding: 8px;
+}
+
+/* MENU */
+
+.menu button {
+    color: var(--menu-btn-text);
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.dropdown button {
+    background-color: var(--menu-btn);
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.menu-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.menu-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .menu-content {
+    display: block;
+}
+
+.logout {
+    display: inline-block;
+    float: right;
+    color: var(--menu-btn-text);
+    text-decoration: none;
+}
+
+/* DARK MODE */
+
+.color-mode {
+    right: 20px;
+    float: right;
+    background: var(--menu-bg); /* Fallback for older browsers without RGBA-support */
+    background: rgba(204, 204, 204, 0)
+}
+
+.dark {
+    display: inline-block;
+}
+
+.light {
+    display: none;
+}
+
+.dark:hover, .light:hover, .logout:hover {
+    color: var(--menu-btn);
+}
+
+/* FILES */
+
+.choose-file ul {
+    list-style: none;
+    line-height: 2em;
+}
+
+.choose-file ul summary {
+    cursor: pointer;
+}
+
+.choose-file ul summary::marker {
+    display: none;
+}
+
+.choose-file ul li, .choose-file ul li a {
+    position: relative;
+    color: var(--text);
+}
+
+.choose-file ul li::before {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    border-left: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    content: "";
+    width: 5px;
+    height: 1em;
+}
+
+.choose-file ul li::after {
+    position: absolute;
+    left: -10px;
+    bottom: 0;
+    border-left: 2px solid var(--border);
+    content: "";
+    width: 8px;
+    height: 100%;
+}
+
+.choose-file ul li:last-child::after {
+    display: none;
+}
+
+.choose-file ul.tree > li:after, .choose-file ul.tree > li:before {
+    display: none;
+}
+
+/* TEXT */
+
+.text {
+    margin: 25px 25px 25px 25px;
+    color: var(--text);
+}
+
+h1 {
+    font-family: arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 1px;
+}
+
+pre {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 1px;
+}
+
+button {
+    color: var(--text);
+}
+
+#tab4_forms {
+    display: none;
+}
+
+.asm-header-highlight {
+    background: var(--asm-header);
+}
+
+.asm-content-highlight {
+    background: var(--asm-content);
+}
+
+#file-form-btn {
+    color: black;
+}
